@@ -30,7 +30,13 @@ if [ -n "$3" ]; then
   MIRROR="$3"
 fi
 
+
 DOCKER_IMAGE="$(egrep -v '(^#|^\s*$|^\s*\t*#)' DockerImage.txt)"
 NIFI_IMAGE_VERSION="$(echo $DOCKER_IMAGE | cut -d : -f 2)"
+
+cp ../../nifi-assembly/target/nifi-${NIFI_IMAGE_VERSION}-bin.tar.gz .
+
 echo "Building NiFi Image: '$DOCKER_IMAGE' Version: $NIFI_IMAGE_VERSION Mirror: $MIRROR"
 docker build --build-arg UID="$DOCKER_UID" --build-arg GID="$DOCKER_GID" --build-arg NIFI_VERSION="$NIFI_IMAGE_VERSION" --build-arg MIRROR="$MIRROR" -t $DOCKER_IMAGE .
+
+rm nifi-${NIFI_IMAGE_VERSION}-bin.tar.gz
