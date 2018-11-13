@@ -293,14 +293,13 @@ public class TestQuery {
             Assert.fail("Did not detect bad JSON path expression");
         } catch (final AttributeExpressionLanguageException e) {
         }
-        try {
-            verifyEquals("${missing:jsonPath('$.firstName')}", attributes, "");
-            Assert.fail("Did not detect empty JSON document");
-        } catch (AttributeExpressionLanguageException e) {
-        }
+
+        // Return empty string on missing subject/document
+        verifyEquals("${missing:jsonPath('$.firstName')}", attributes, "");
+
         attributes.put("invalid", "[}");
         try {
-            verifyEquals("${invlaid:jsonPath('$.firstName')}", attributes, "John");
+            verifyEquals("${invalid:jsonPath('$.firstName')}", attributes, "John");
             Assert.fail("Did not detect invalid JSON document");
         } catch (AttributeExpressionLanguageException e) {
         }

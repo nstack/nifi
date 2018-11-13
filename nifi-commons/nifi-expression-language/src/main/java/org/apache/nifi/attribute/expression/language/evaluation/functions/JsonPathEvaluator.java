@@ -63,7 +63,7 @@ public class JsonPathEvaluator extends StringEvaluator {
     public QueryResult<String> evaluate(final Map<String, String> attributes) {
         final String subjectValue = subject.evaluate(attributes).getValue();
         if (subjectValue == null || subjectValue.length() == 0) {
-            throw new  AttributeExpressionLanguageException("Subject is empty");
+            return EMPTY_RESULT;
         }
         DocumentContext documentContext = null;
         try {
